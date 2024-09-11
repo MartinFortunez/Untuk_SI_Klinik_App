@@ -1,0 +1,57 @@
+// ========================= Custom Variable ================================
+$primary: #58a399;
+$secondary: #eeeeee;
+$success: #28a745;
+$info: #17a2b8;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #343a40;
+
+// ========================= Custom Class ================================
+.custom-gradient {
+  background: linear-gradient(
+    to top,
+    rgba(16, 35, 35, 1),
+    rgba(88, 163, 153, 1)
+  );
+}
+
+.custom-bg-hero {
+  background: linear-gradient(to bottom, $primary, transparent 90%);
+}
+
+.z-negative {
+  z-index: -1;
+}
+
+.logo {
+  height: 40px;
+  width: 100%;
+}
+
+.custom-card-img {
+  height: 200px;
+  object-fit: cover; /* Memastikan gambar tetap proporsional dan tidak terdistorsi */
+}
+
+.width-fit-content {
+  width: -moz-fit-content; /* Support for Firefox */
+  width: fit-content;
+}
+
+// ========================= Custom Nav Landing Page ================================
+.custom-nav {
+  background-color: $primary;
+}
+
+// ========================= Custom Button ================================
+
+// ========================= Custom CardIncomingConsultation ================================
+
+.custom-underline {
+  width: 40px;
+  border-bottom: 2px solid $primary;
+}
+
+@import "~bootstrap/scss/bootstrap";

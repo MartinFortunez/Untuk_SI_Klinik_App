@@ -1,0 +1,28 @@
+<%- include('../layouts/navbar') %>
+
+<!-- Page Content  -->
+<div class="main-panel">
+  <div id="content" class="p-4 p-md-5">
+    <div class="container mt-5">
+        <h1 class="mb-4">Add Admin</h1>
+        <form action="/dashboard/admin/add" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="foto_admin">Photo</label>
+                <input type="file" class="form-control" id="foto_admin" name="foto_admin" required>
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+            <a href="/dashboard/admin" class="btn btn-warning">Back</a>
+        </form>
+    </div>
+</div>
+</div>
+
+<%- include('../layouts/footer') %>

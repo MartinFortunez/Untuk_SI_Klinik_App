@@ -1,0 +1,39 @@
+<%- include('../layouts/navbar') %>
+
+<!-- Page Content  -->
+<div class="main-panel">
+  <div id="content" class="p-4 p-md-5">
+    <div class="container mt-5">
+      
+      <h1 class="mb-4">Admin List</h1>
+      <a href="/dashboard/admin/add" class="btn btn-primary mb-4">Tambah</a>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Foto Admin</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(admin => { %>
+          <tr class="text-center">
+            <td><%= admin.admin_id %></td>
+            <td><img src="data:image/jpeg;base64, <%= admin.foto_admin %>" alt="Admin Photo" width="100" /></td>
+            <td><%= admin.username %></td>
+            <td><%= admin.password %></td>
+            <td>
+              <a href="/dashboard/admin/edit/<%= admin.admin_id %>" class="btn btn-warning">Edit</a>
+              <a href="/dashboard/admin/delete/<%= admin.admin_id %>" class="btn btn-danger">Delete</a>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include('../layouts/footer') %>

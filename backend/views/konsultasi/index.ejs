@@ -1,0 +1,131 @@
+<%- include('../layouts/navbar') %>
+
+<style>
+   .underline {
+      border-bottom: 3px solid #17a2b8;
+      line-height: 1.5;
+      display: inline-block;
+   }
+
+   ul li {
+      color: silver;
+   }
+
+   .text-end {
+      text-align: end !important;
+   }
+
+   .font-weight-light {
+      color: silver !important;
+      font-weight: 500 !important;
+   }
+</style>
+
+<!-- Page Content  -->
+<div class="main-panel">
+  <div id="content" class="p-4 p-md-5">
+    <div class="container-fluid mt-5">
+      <div class="header-content d-flex justify-content-start align-items-center">
+        <h1 class="mb-4">Konsultasi Masuk</h1>
+      </div>
+
+      <div class="body-content">
+        <% if (schedules.length > 0) { %>
+          <% schedules.forEach(schedule => { %>
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <h4 class="underline">User</h4>
+                  </div>
+                  <div class="col-lg-6 d-flex justify-content-end">
+                    <ul type="square">
+                      <li><p style="color: black !important;"><%= new Date(schedule.tgl_konsul).toLocaleDateString('id-ID') %></p></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <div class="col-lg-12">
+                    <h5 class="font-weight-light">NIK</h5>
+                    <strong><%= schedule.nik %></strong>
+                  </div>
+                </div>
+
+                <div class="row mb-4">
+                  <div class="col-lg-4 d-flex flex-column">
+                    <h5 class="font-weight-light">Nama</h5>
+                    <strong><%= schedule.nama_pasien %></strong>
+                  </div>
+                  <div class="col-lg-4 d-flex flex-column text-center">
+                    <h5 class="font-weight-light">Jenis Kelamin</h5>
+                    <strong><%= schedule.jenis_kelamin %></strong>
+                  </div>
+                  <div class="col-lg-4 d-flex flex-column text-end">
+                    <h5 class="font-weight-light">Gol. Darah</h5>
+                    <strong><%= schedule.gol_darah %></strong>
+                  </div>
+                </div>
+
+                <div class="row mb-4">
+                  <div class="col-lg-4 d-flex flex-column">
+                    <h5 class="font-weight-light">Alamat</h5>
+                    <strong><%= schedule.alamat %></strong>
+                  </div>
+                  <div class="col-lg-4 d-flex flex-column text-center">
+                    <h5 class="font-weight-light">Tanggal Lahir</h5>
+                    <strong><%= new Date(schedule.tgl_lahir).toLocaleDateString('id-ID') %></strong>
+                  </div>
+                  <div class="col-lg-4 d-flex flex-column text-end">
+                    <h5 class="font-weight-light">No. HP/WhatsApp</h5>
+                    <strong><%= schedule.no_wa %></strong>
+                  </div>
+                </div>
+
+                <div class="row mt-4">
+                  <div class="col-lg-12">
+                    <h4 class="underline">Dokter</h4>
+                  </div>
+                </div>
+
+                <div class="row mb-4">
+                  <div class="col-lg-4 d-flex flex-column">
+                    <h5 class="font-weight-light">Dokter</h5>
+                    <strong><%= schedule.nama_dokter %></strong>
+                  </div>
+                  <div class="col-lg-4 d-flex flex-column text-center">
+                    <h5 class="font-weight-light">Spesialis</h5>
+                    <strong><%= schedule.spesialis %></strong>
+                  </div>
+                  <div class="col-lg-4 d-flex flex-column text-end">
+                    <h5 class="font-weight-light">Sesi</h5>
+                    <strong><%= schedule.sesi %></strong>
+                  </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="d-flex justify-content-end">
+                      <!-- NEW BUTTON -->
+                      <form action="/dashboard/jadwal-konsultasi/<%= schedule.konsul_id %>/tolak" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-outline-danger mr-2">Tolak</button>
+                      </form>
+                      <form action="/dashboard/jadwal-konsultasi/<%= schedule.konsul_id %>/setuju" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-primary">Setuju</button>
+                      </form>
+                      <!-- END NEW BUTTON -->
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <p>Tidak ada konsultasi masuk.</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+  <%- include('../layouts/footer') %>
+</div>

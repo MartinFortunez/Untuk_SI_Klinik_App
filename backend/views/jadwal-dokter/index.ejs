@@ -1,0 +1,348 @@
+<%- include('../layouts/navbar') %>
+
+<!-- Page Content  -->
+<div class="main-panel">
+  <div id="content" class="p-4 p-md-5">
+    <div class="container-fluid mt-5">
+      <div class="header-content d-flex justify-content-between align-items-center">
+        <h1 class="mb-4">Data Jadwal Dokter</h1>
+        <button class="btn btn-primary mb-4" data-toggle="modal" data-target="#addJadwalDoctorModal">Tambah</button>
+      </div>
+      <div class="body-content">
+        <% schedules.forEach(jadwal_dokter => { %>
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3 d-flex flex-column justify-content-center">
+                <h5 class="mb-0">Nama Dokter</h5>
+                <p class="font-weight-bold"><%= jadwal_dokter.nama_dokter %></p>
+              </div>
+              <div class="col-md-3 d-flex flex-column justify-content-center">
+                <h5 class="mb-0">Sesi</h5>
+                <p class="font-weight-bold"><%= jadwal_dokter.sesi %></p>
+              </div>
+              <div class="col-md-3 d-flex flex-column justify-content-center">
+                <h5 class="mb-0">Spesialis</h5>
+                <p class="font-weight-bold"><%= jadwal_dokter.spesialis %></p>
+              </div>
+              <div class="col-md-3 d-flex flex-column justify-content-center">
+                <h5 class="mb-0">Status</h5>
+                <p class="font-weight-bold"><%= jadwal_dokter.status %></p>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-md-12 d-flex align-items-center justify-content-end">
+                <!-- <a href="/dashboard/jadwal-dokter-spesialis/delete/<%= jadwal_dokter.jadwal_id %>" class="text-danger mr-3">Hapus</a> -->
+                <a href="#" class="text-danger mr-3" onclick="confirmDelete('<%= jadwal_dokter.jadwal_id %>')">Hapus</a>
+                <button class="btn btn-outline-primary" data-toggle="modal" data-target="#editJadwalDoctorModal-<%= jadwal_dokter.jadwal_id %>">Edit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Edit Jadwal Dokter -->
+        <div class="modal fade" id="editJadwalDoctorModal-<%= jadwal_dokter.jadwal_id %>" tabindex="-1" role="dialog" aria-labelledby="editJadwalDoctorModalLabel-<%= jadwal_dokter.jadwal_id %>" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editJadwalDoctorModalLabel-<%= jadwal_dokter.jadwal_id %>">Edit Jadwal Dokter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="/dashboard/jadwal-dokter-spesialis/edit/<%= jadwal_dokter.jadwal_id %>" method="POST">
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="editDokterSelect-<%= jadwal_dokter.jadwal_id %>">Nama Dokter</label>
+                    <select class="form-control" id="editDokterSelect-<%= jadwal_dokter.jadwal_id %>" name="dokter_id">
+                      <% doctors.forEach(dokter => { %>
+                        <option value="<%= dokter.dokter_id %>" <% if (dokter.dokter_id === jadwal_dokter.dokter_id) { %> selected <% } %>><%= dokter.nama_dokter %></option>
+                      <% }) %>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="editSesiSelect-<%= jadwal_dokter.jadwal_id %>">Sesi</label>
+                    <select class="form-control" id="editSesiSelect-<%= jadwal_dokter.jadwal_id %>" name="sesi">
+                      <!-- Senin -->
+                      <option value="Senin (09:00 - 10:00)" <% if (jadwal_dokter.sesi === 'Senin (09:00 - 10:00)') { %> selected <% } %>>Senin (09:00 - 10:00)</option>
+                      <option value="Senin (10:00 - 11:00)">>Senin (10:00 - 11:00)</option>
+                      <option value="Senin (11:00 - 12:00)" <% if (jadwal_dokter.sesi === 'Senin (11:00 - 12:00)') { %> selected <% } %>>Senin (11:00 - 12:00)</option>
+                      <option value="Senin (12:00 - 13:00)" <% if (jadwal_dokter.sesi === 'Senin (12:00 - 13:00)') { %> selected <% } %>>Senin (12:00 - 13:00)</option>
+                      <option value="Senin (13:00 - 14:00)" <% if (jadwal_dokter.sesi === 'Senin (13:00 - 14:00)') { %> selected <% } %>>Senin (13:00 - 14:00)</option>
+                      <option value="Senin (14:00 - 15:00)" <% if (jadwal_dokter.sesi === 'Senin (14:00 - 15:00)') { %> selected <% } %>>Senin (14:00 - 15:00)</option>
+                      <option value="Senin (15:00 - 16:00)" <% if (jadwal_dokter.sesi === 'Senin (15:00 - 16:00)') { %> selected <% } %>>Senin (15:00 - 16:00)</option>
+                      <option value="Senin (16:00 - 17:00)" <% if (jadwal_dokter.sesi === 'Senin (16:00 - 17:00)') { %> selected <% } %>>Senin (16:00 - 17:00)</option>
+                      <option value="Senin (17:00 - 18:00)" <% if (jadwal_dokter.sesi === 'Senin (17:00 - 18:00)') { %> selected <% } %>>Senin (17:00 - 18:00)</option>
+                      <option value="Senin (18:00 - 19:00)" <% if (jadwal_dokter.sesi === 'Senin (18:00 - 19:00)') { %> selected <% } %>>Senin (18:00 - 19:00)</option>
+                      <option value="Senin (19:00 - 20:00)" <% if (jadwal_dokter.sesi === 'Senin (19:00 - 20:00)') { %> selected <% } %>>Senin (19:00 - 20:00)</option>
+                      <option value="Senin (20:00 - 21:00)" <% if (jadwal_dokter.sesi === 'Senin (20:00 - 21:00)') { %> selected <% } %>>Senin (20:00 - 21:00)</option>
+                      <!-- Selasa -->
+                      <option value="Selasa (09:00 - 10:00)" <% if (jadwal_dokter.sesi === 'Selasa (09:00 - 10:00)') { %> selected <% } %>>Selasa (09:00 - 10:00)</option>
+                      <option value="Selasa (10:00 - 11:00)" <% if (jadwal_dokter.sesi === 'Selasa (10:00 - 11:00)') { %> selected <% } %>>Selasa (10:00 - 11:00)</option>
+                      <option value="Selasa (11:00 - 12:00)" <% if (jadwal_dokter.sesi === 'Selasa (11:00 - 12:00)') { %> selected <% } %>>Selasa (11:00 - 12:00)</option>
+                      <option value="Selasa (12:00 - 13:00)" <% if (jadwal_dokter.sesi === 'Selasa (12:00 - 13:00)') { %> selected <% } %>>Selasa (12:00 - 13:00)</option>
+                      <option value="Selasa (13:00 - 14:00)" <% if (jadwal_dokter.sesi === 'Selasa (13:00 - 14:00)') { %> selected <% } %>>Selasa (13:00 - 14:00)</option>
+                      <option value="Selasa (14:00 - 15:00)" <% if (jadwal_dokter.sesi === 'Selasa (14:00 - 15:00)') { %> selected <% } %>>Selasa (14:00 - 15:00)</option>
+                      <option value="Selasa (15:00 - 16:00)" <% if (jadwal_dokter.sesi === 'Selasa (15:00 - 16:00)') { %> selected <% } %>>Selasa (15:00 - 16:00)</option>
+                      <option value="Selasa (16:00 - 17:00)" <% if (jadwal_dokter.sesi === 'Selasa (16:00 - 17:00)') { %> selected <% } %>>Selasa (16:00 - 17:00)</option>
+                      <option value="Selasa (17:00 - 18:00)" <% if (jadwal_dokter.sesi === 'Selasa (17:00 - 18:00)') { %> selected <% } %>>Selasa (17:00 - 18:00)</option>
+                      <option value="Selasa (18:00 - 19:00)" <% if (jadwal_dokter.sesi === 'Selasa (18:00 - 19:00)') { %> selected <% } %>>Selasa (18:00 - 19:00)</option>
+                      <option value="Selasa (19:00 - 20:00)" <% if (jadwal_dokter.sesi === 'Selasa (19:00 - 20:00)') { %> selected <% } %>>Selasa (19:00 - 20:00)</option>
+                      <option value="Selasa (20:00 - 21:00)" <% if (jadwal_dokter.sesi === 'Selasa (20:00 - 21:00)') { %> selected <% } %>>Selasa (20:00 - 21:00)</option>
+                      <!-- Rabu -->
+                      <option value="Rabu (09:00 - 10:00)" <% if (jadwal_dokter.sesi === 'Rabu (09:00 - 10:00)') { %> selected <% } %>>Rabu (09:00 - 10:00)</option>
+                      <option value="Rabu (10:00 - 11:00)" <% if (jadwal_dokter.sesi === 'Rabu (10:00 - 11:00)') { %> selected <% } %>>Rabu (10:00 - 11:00)</option>
+                      <option value="Rabu (11:00 - 12:00)" <% if (jadwal_dokter.sesi === 'Rabu (11:00 - 12:00)') { %> selected <% } %>>Rabu (11:00 - 12:00)</option>
+                      <option value="Rabu (12:00 - 13:00)" <% if (jadwal_dokter.sesi === 'Rabu (12:00 - 13:00)') { %> selected <% } %>>Rabu (12:00 - 13:00)</option>
+                      <option value="Rabu (13:00 - 14:00)" <% if (jadwal_dokter.sesi === 'Rabu (13:00 - 14:00)') { %> selected <% } %>>Rabu (13:00 - 14:00)</option>
+                      <option value="Rabu (14:00 - 15:00)" <% if (jadwal_dokter.sesi === 'Rabu (14:00 - 15:00)') { %> selected <% } %>>Rabu (14:00 - 15:00)</option>
+                      <option value="Rabu (15:00 - 16:00)" <% if (jadwal_dokter.sesi === 'Rabu (15:00 - 16:00)') { %> selected <% } %>>Rabu (15:00 - 16:00)</option>
+                      <option value="Rabu (16:00 - 17:00)" <% if (jadwal_dokter.sesi === 'Rabu (16:00 - 17:00)') { %> selected <% } %>>Rabu (16:00 - 17:00)</option>
+                      <option value="Rabu (17:00 - 18:00)" <% if (jadwal_dokter.sesi === 'Rabu (17:00 - 18:00)') { %> selected <% } %>>Rabu (17:00 - 18:00)</option>
+                      <option value="Rabu (18:00 - 19:00)" <% if (jadwal_dokter.sesi === 'Rabu (18:00 - 19:00)') { %> selected <% } %>>Rabu (18:00 - 19:00)</option>
+                      <option value="Rabu (19:00 - 20:00)" <% if (jadwal_dokter.sesi === 'Rabu (19:00 - 20:00)') { %> selected <% } %>>Rabu (19:00 - 20:00)</option>
+                      <option value="Rabu (20:00 - 21:00)" <% if (jadwal_dokter.sesi === 'Rabu (20:00 - 21:00)') { %> selected <% } %>>Rabu (20:00 - 21:00)</option>
+                      <!-- Kamis -->
+                      <option value="Kamis (09:00 - 10:00)" <% if (jadwal_dokter.sesi === 'Kamis (09:00 - 10:00)') { %> selected <% } %>>Kamis (09:00 - 10:00)</option>
+                      <option value="Kamis (10:00 - 11:00)" <% if (jadwal_dokter.sesi === 'Kamis (10:00 - 11:00)') { %> selected <% } %>>Kamis (10:00 - 11:00)</option>
+                      <option value="Kamis (11:00 - 12:00)" <% if (jadwal_dokter.sesi === 'Kamis (11:00 - 12:00)') { %> selected <% } %>>Kamis (11:00 - 12:00)</option>
+                      <option value="Kamis (12:00 - 13:00)" <% if (jadwal_dokter.sesi === 'Kamis (12:00 - 13:00)') { %> selected <% } %>>Kamis (12:00 - 13:00)</option>
+                      <option value="Kamis (13:00 - 14:00)" <% if (jadwal_dokter.sesi === 'Kamis (13:00 - 14:00)') { %> selected <% } %>>Kamis (13:00 - 14:00)</option>
+                      <option value="Kamis (14:00 - 15:00)" <% if (jadwal_dokter.sesi === 'Kamis (14:00 - 15:00)') { %> selected <% } %>>Kamis (14:00 - 15:00)</option>
+                      <option value="Kamis (15:00 - 16:00)" <% if (jadwal_dokter.sesi === 'Kamis (15:00 - 16:00)') { %> selected <% } %>>Kamis (15:00 - 16:00)</option>
+                      <option value="Kamis (16:00 - 17:00)" <% if (jadwal_dokter.sesi === 'Kamis (16:00 - 17:00)') { %> selected <% } %>>Kamis (16:00 - 17:00)</option>
+                      <option value="Kamis (17:00 - 18:00)" <% if (jadwal_dokter.sesi === 'Kamis (17:00 - 18:00)') { %> selected <% } %>>Kamis (17:00 - 18:00)</option>
+                      <option value="Kamis (18:00 - 19:00)" <% if (jadwal_dokter.sesi === 'Kamis (18:00 - 19:00)') { %> selected <% } %>>Kamis (18:00 - 19:00)</option>
+                      <option value="Kamis (19:00 - 20:00)" <% if (jadwal_dokter.sesi === 'Kamis (19:00 - 20:00)') { %> selected <% } %>>Kamis (19:00 - 20:00)</option>
+                      <option value="Kamis (20:00 - 21:00)" <% if (jadwal_dokter.sesi === 'Kamis (20:00 - 21:00)') { %> selected <% } %>>Kamis (20:00 - 21:00)</option>
+                      <!-- Jumat -->
+                      <option value="Jumat (09:00 - 10:00)" <% if (jadwal_dokter.sesi === 'Jumat (09:00 - 10:00)') { %> selected <% } %>>Jumat (09:00 - 10:00)</option>
+                      <option value="Jumat (10:00 - 11:00)" <% if (jadwal_dokter.sesi === 'Jumat (10:00 - 11:00)') { %> selected <% } %>>Jumat (10:00 - 11:00)</option>
+                      <option value="Jumat (11:00 - 12:00)" <% if (jadwal_dokter.sesi === 'Jumat (11:00 - 12:00)') { %> selected <% } %>>Jumat (11:00 - 12:00)</option>
+                      <option value="Jumat (12:00 - 13:00)" <% if (jadwal_dokter.sesi === 'Jumat (12:00 - 13:00)') { %> selected <% } %>>Jumat (12:00 - 13:00)</option>
+                      <option value="Jumat (13:00 - 14:00)" <% if (jadwal_dokter.sesi === 'Jumat (13:00 - 14:00)') { %> selected <% } %>>Jumat (13:00 - 14:00)</option>
+                      <option value="Jumat (14:00 - 15:00)" <% if (jadwal_dokter.sesi === 'Jumat (14:00 - 15:00)') { %> selected <% } %>>Jumat (14:00 - 15:00)</option>
+                      <option value="Jumat (15:00 - 16:00)" <% if (jadwal_dokter.sesi === 'Jumat (15:00 - 16:00)') { %> selected <% } %>>Jumat (15:00 - 16:00)</option>
+                      <option value="Jumat (16:00 - 17:00)" <% if (jadwal_dokter.sesi === 'Jumat (16:00 - 17:00)') { %> selected <% } %>>Jumat (16:00 - 17:00)</option>
+                      <option value="Jumat (17:00 - 18:00)" <% if (jadwal_dokter.sesi === 'Jumat (17:00 - 18:00)') { %> selected <% } %>>Jumat (17:00 - 18:00)</option>
+                      <option value="Jumat (18:00 - 19:00)" <% if (jadwal_dokter.sesi === 'Jumat (18:00 - 19:00)') { %> selected <% } %>>Jumat (18:00 - 19:00)</option>
+                      <option value="Jumat (19:00 - 20:00)" <% if (jadwal_dokter.sesi === 'Jumat (19:00 - 20:00)') { %> selected <% } %>>Jumat (19:00 - 20:00)</option>
+                      <option value="Jumat (20:00 - 21:00)" <% if (jadwal_dokter.sesi === 'Jumat (20:00 - 21:00)') { %> selected <% } %>>Jumat (20:00 - 21:00)</option>
+                      <!-- Sabtu -->
+                      <option value="Sabtu (09:00 - 10:00)" <% if (jadwal_dokter.sesi === 'Sabtu (09:00 - 10:00)') { %> selected <% } %>>Sabtu (09:00 - 10:00)</option>
+                      <option value="Sabtu (10:00 - 11:00)" <% if (jadwal_dokter.sesi === 'Sabtu (10:00 - 11:00)') { %> selected <% } %>>Sabtu (10:00 - 11:00)</option>
+                      <option value="Sabtu (11:00 - 12:00)" <% if (jadwal_dokter.sesi === 'Sabtu (11:00 - 12:00)') { %> selected <% } %>>Sabtu (11:00 - 12:00)</option>
+                      <option value="Sabtu (12:00 - 13:00)" <% if (jadwal_dokter.sesi === 'Sabtu (12:00 - 13:00)') { %> selected <% } %>>Sabtu (12:00 - 13:00)</option>
+                      <option value="Sabtu (13:00 - 14:00)" <% if (jadwal_dokter.sesi === 'Sabtu (13:00 - 14:00)') { %> selected <% } %>>Sabtu (13:00 - 14:00)</option>
+                      <option value="Sabtu (14:00 - 15:00)" <% if (jadwal_dokter.sesi === 'Sabtu (14:00 - 15:00)') { %> selected <% } %>>Sabtu (14:00 - 15:00)</option>
+                      <option value="Sabtu (15:00 - 16:00)" <% if (jadwal_dokter.sesi === 'Sabtu (15:00 - 16:00)') { %> selected <% } %>>Sabtu (15:00 - 16:00)</option>
+                      <option value="Sabtu (16:00 - 17:00)" <% if (jadwal_dokter.sesi === 'Sabtu (16:00 - 17:00)') { %> selected <% } %>>Sabtu (16:00 - 17:00)</option>
+                      <option value="Sabtu (17:00 - 18:00)" <% if (jadwal_dokter.sesi === 'Sabtu (17:00 - 18:00)') { %> selected <% } %>>Sabtu (17:00 - 18:00)</option>
+                      <option value="Sabtu (18:00 - 19:00)" <% if (jadwal_dokter.sesi === 'Sabtu (18:00 - 19:00)') { %> selected <% } %>>Sabtu (18:00 - 19:00)</option>
+                      <option value="Sabtu (19:00 - 20:00)" <% if (jadwal_dokter.sesi === 'Sabtu (19:00 - 20:00)') { %> selected <% } %>>Sabtu (19:00 - 20:00)</option>
+                      <option value="Sabtu (20:00 - 21:00)" <% if (jadwal_dokter.sesi === 'Sabtu (20:00 - 21:00)') { %> selected <% } %>>Sabtu (20:00 - 21:00)</option>
+                      <!-- Minggu -->
+                      <option value="Minggu (09:00 - 10:00)" <% if (jadwal_dokter.sesi === 'Minggu (09:00 - 10:00)') { %> selected <% } %>>Minggu (09:00 - 10:00)</option>
+                      <option value="Minggu (10:00 - 11:00)" <% if (jadwal_dokter.sesi === 'Minggu (10:00 - 11:00)') { %> selected <% } %>>Minggu (10:00 - 11:00)</option>
+                      <option value="Minggu (11:00 - 12:00)" <% if (jadwal_dokter.sesi === 'Minggu (11:00 - 12:00)') { %> selected <% } %>>Minggu (11:00 - 12:00)</option>
+                      <option value="Minggu (12:00 - 13:00)" <% if (jadwal_dokter.sesi === 'Minggu (12:00 - 13:00)') { %> selected <% } %>>Minggu (12:00 - 13:00)</option>
+                      <option value="Minggu (13:00 - 14:00)" <% if (jadwal_dokter.sesi === 'Minggu (13:00 - 14:00)') { %> selected <% } %>>Minggu (13:00 - 14:00)</option>
+                      <option value="Minggu (14:00 - 15:00)" <% if (jadwal_dokter.sesi === 'Minggu (14:00 - 15:00)') { %> selected <% } %>>Minggu (14:00 - 15:00)</option>
+                      <option value="Minggu (15:00 - 16:00)" <% if (jadwal_dokter.sesi === 'Minggu (15:00 - 16:00)') { %> selected <% } %>>Minggu (15:00 - 16:00)</option>
+                      <option value="Minggu (16:00 - 17:00)" <% if (jadwal_dokter.sesi === 'Minggu (16:00 - 17:00)') { %> selected <% } %>>Minggu (16:00 - 17:00)</option>
+                      <option value="Minggu (17:00 - 18:00)" <% if (jadwal_dokter.sesi === 'Minggu (17:00 - 18:00)') { %> selected <% } %>>Minggu (17:00 - 18:00)</option>
+                      <option value="Minggu (18:00 - 19:00)" <% if (jadwal_dokter.sesi === 'Minggu (18:00 - 19:00)') { %> selected <% } %>>Minggu (18:00 - 19:00)</option>
+                      <option value="Minggu (19:00 - 20:00)" <% if (jadwal_dokter.sesi === 'Minggu (19:00 - 20:00)') { %> selected <% } %>>Minggu (19:00 - 20:00)</option>
+                      <option value="Minggu (20:00 - 21:00)" <% if (jadwal_dokter.sesi === 'Minggu (20:00 - 21:00)') { %> selected <% } %>>Minggu (20:00 - 21:00)</option>
+                    </select>
+                    </div>
+                  <div class="form-group">
+                    <label for="editStatusSelect-<%= jadwal_dokter.jadwal_id %>">Status</label>
+                    <select class="form-control" id="editStatusSelect-<%= jadwal_dokter.jadwal_id %>" name="status">
+                      <option value="On" <% if (jadwal_dokter.status === 'On') { %> selected <% } %>>On</option>
+                      <option value="Off" <% if (jadwal_dokter.status === 'Off') { %> selected <% } %>>Off</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="deleteJadwalDoctorModal-<%= jadwal_dokter.jadwal_id %>" tabindex="-1" role="dialog" aria-labelledby="deleteJadwalDoctorModalLabel-<%= jadwal_dokter.jadwal_id %>" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-body text-center">
+                <h6 class="display-4 font-weight-bold mt-4">Hapus Jadwal Dokter</h6>
+                <p class="font-weight-500 mb-4">Apakah Anda yakin untuk menghapus jadwal dokter ini?</p>
+                <div class="d-flex justify-content-center align-items-center">
+                  <button type="button" class="btn btn-primary mr-3 mb-3 font-weight-bold" data-dismiss="modal">Batal</button>
+                  <a href="#" class="btn btn-danger ml-3 mb-3 text-danger font-weight-bold" onclick="deleteJadwal('<%= jadwal_dokter.jadwal_id %>')" style="background: none !important; border: none !important;">Hapus</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+
+        <!-- Modal Tambah Jadwal Dokter -->
+        <div class="modal fade" id="addJadwalDoctorModal" tabindex="-1" role="dialog" aria-labelledby="addJadwalDoctorModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addJadwalDoctorModalLabel">Tambah Jadwal Dokter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="/dashboard/jadwal-dokter-spesialis/add" method="POST">
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="dokterSelect">Nama Dokter</label>
+                    <select class="form-control" id="dokterSelect" name="dokter_id">
+                      <% doctors.forEach(dokter => { %>
+                        <option value="<%= dokter.dokter_id %>"><%= dokter.nama_dokter %></option>
+                      <% }) %>
+                    </select>
+                  </div>
+                  <!-- <div class="form-group">
+                    <label for="sesiInput">Sesi</label>
+                    <input type="text" class="form-control" id="sesiInput" name="sesi" placeholder="Masukkan Sesi">
+                  </div> -->
+                  
+                  <div class="form-group">
+                    <label for="editSesiSelect">Sesi</label>
+                    <select class="form-control" id="editSesiSelect" name="sesi">
+                      <!-- Senin -->
+                      <option value="Senin (09:00 - 10:00)">Senin (09:00 - 10:00)</option>
+                      <option value="Senin (10:00 - 11:00)">Senin (10:00 - 11:00)</option>
+                      <option value="Senin (11:00 - 12:00)">Senin (11:00 - 12:00)</option>
+                      <option value="Senin (12:00 - 13:00)">Senin (12:00 - 13:00)</option>
+                      <option value="Senin (13:00 - 14:00)">Senin (13:00 - 14:00)</option>
+                      <option value="Senin (14:00 - 15:00)">Senin (14:00 - 15:00)</option>
+                      <option value="Senin (15:00 - 16:00)">Senin (15:00 - 16:00)</option>
+                      <option value="Senin (16:00 - 17:00)">Senin (16:00 - 17:00)</option>
+                      <option value="Senin (17:00 - 18:00)">Senin (17:00 - 18:00)</option>
+                      <option value="Senin (18:00 - 19:00)">Senin (18:00 - 19:00)</option>
+                      <option value="Senin (19:00 - 20:00)">Senin (19:00 - 20:00)</option>
+                      <option value="Senin (20:00 - 21:00)">Senin (20:00 - 21:00)</option>
+                      <!-- Selasa -->
+                      <option value="Selasa (09:00 - 10:00)">Selasa (09:00 - 10:00)</option>
+                      <option value="Selasa (10:00 - 11:00)">Selasa (10:00 - 11:00)</option>
+                      <option value="Selasa (11:00 - 12:00)">Selasa (11:00 - 12:00)</option>
+                      <option value="Selasa (12:00 - 13:00)">Selasa (12:00 - 13:00)</option>
+                      <option value="Selasa (13:00 - 14:00)">Selasa (13:00 - 14:00)</option>
+                      <option value="Selasa (14:00 - 15:00)">Selasa (14:00 - 15:00)</option>
+                      <option value="Selasa (15:00 - 16:00)">Selasa (15:00 - 16:00)</option>
+                      <option value="Selasa (16:00 - 17:00)">Selasa (16:00 - 17:00)</option>
+                      <option value="Selasa (17:00 - 18:00)">Selasa (17:00 - 18:00)</option>
+                      <option value="Selasa (18:00 - 19:00)">Selasa (18:00 - 19:00)</option>
+                      <option value="Selasa (19:00 - 20:00)">Selasa (19:00 - 20:00)</option>
+                      <option value="Selasa (20:00 - 21:00)">Selasa (20:00 - 21:00)</option>
+                      <!-- Rabu -->
+                      <option value="Rabu (09:00 - 10:00)">Rabu (09:00 - 10:00)</option>
+                      <option value="Rabu (10:00 - 11:00)">Rabu (10:00 - 11:00)</option>
+                      <option value="Rabu (11:00 - 12:00)">Rabu (11:00 - 12:00)</option>
+                      <option value="Rabu (12:00 - 13:00)">Rabu (12:00 - 13:00)</option>
+                      <option value="Rabu (13:00 - 14:00)">Rabu (13:00 - 14:00)</option>
+                      <option value="Rabu (14:00 - 15:00)">Rabu (14:00 - 15:00)</option>
+                      <option value="Rabu (15:00 - 16:00)">Rabu (15:00 - 16:00)</option>
+                      <option value="Rabu (16:00 - 17:00)">Rabu (16:00 - 17:00)</option>
+                      <option value="Rabu (17:00 - 18:00)">Rabu (17:00 - 18:00)</option>
+                      <option value="Rabu (18:00 - 19:00)">Rabu (18:00 - 19:00)</option>
+                      <option value="Rabu (19:00 - 20:00)">Rabu (19:00 - 20:00)</option>
+                      <option value="Rabu (20:00 - 21:00)">Rabu (20:00 - 21:00)</option>
+                      <!-- Kamis -->
+                      <option value="Kamis (09:00 - 10:00)">Kamis (09:00 - 10:00)</option>
+                      <option value="Kamis (10:00 - 11:00)">Kamis (10:00 - 11:00)</option>
+                      <option value="Kamis (11:00 - 12:00)">Kamis (11:00 - 12:00)</option>
+                      <option value="Kamis (12:00 - 13:00)">Kamis (12:00 - 13:00)</option>
+                      <option value="Kamis (13:00 - 14:00)">Kamis (13:00 - 14:00)</option>
+                      <option value="Kamis (14:00 - 15:00)">Kamis (14:00 - 15:00)</option>
+                      <option value="Kamis (15:00 - 16:00)">Kamis (15:00 - 16:00)</option>
+                      <option value="Kamis (16:00 - 17:00)">Kamis (16:00 - 17:00)</option>
+                      <option value="Kamis (17:00 - 18:00)">Kamis (17:00 - 18:00)</option>
+                      <option value="Kamis (18:00 - 19:00)">Kamis (18:00 - 19:00)</option>
+                      <option value="Kamis (19:00 - 20:00)">Kamis (19:00 - 20:00)</option>
+                      <option value="Kamis (20:00 - 21:00)">Kamis (20:00 - 21:00)</option>
+                      <!-- Jumat -->
+                      <option value="Jumat (09:00 - 10:00)">Jumat (09:00 - 10:00)</option>
+                      <option value="Jumat (10:00 - 11:00)">Jumat (10:00 - 11:00)</option>
+                      <option value="Jumat (11:00 - 12:00)">Jumat (11:00 - 12:00)</option>
+                      <option value="Jumat (12:00 - 13:00)">Jumat (12:00 - 13:00)</option>
+                      <option value="Jumat (13:00 - 14:00)">Jumat (13:00 - 14:00)</option>
+                      <option value="Jumat (14:00 - 15:00)">Jumat (14:00 - 15:00)</option>
+                      <option value="Jumat (15:00 - 16:00)">Jumat (15:00 - 16:00)</option>
+                      <option value="Jumat (16:00 - 17:00)">Jumat (16:00 - 17:00)</option>
+                      <option value="Jumat (17:00 - 18:00)">Jumat (17:00 - 18:00)</option>
+                      <option value="Jumat (18:00 - 19:00)">Jumat (18:00 - 19:00)</option>
+                      <option value="Jumat (19:00 - 20:00)">Jumat (19:00 - 20:00)</option>
+                      <option value="Jumat (20:00 - 21:00)">Jumat (20:00 - 21:00)</option>
+                      <!-- Sabtu -->
+                      <option value="Sabtu (09:00 - 10:00)">Sabtu (09:00 - 10:00)</option>
+                      <option value="Sabtu (10:00 - 11:00)">Sabtu (10:00 - 11:00)</option>
+                      <option value="Sabtu (11:00 - 12:00)">Sabtu (11:00 - 12:00)</option>
+                      <option value="Sabtu (12:00 - 13:00)">Sabtu (12:00 - 13:00)</option>
+                      <option value="Sabtu (13:00 - 14:00)">Sabtu (13:00 - 14:00)</option>
+                      <option value="Sabtu (14:00 - 15:00)">Sabtu (14:00 - 15:00)</option>
+                      <option value="Sabtu (15:00 - 16:00)">Sabtu (15:00 - 16:00)</option>
+                      <option value="Sabtu (16:00 - 17:00)">Sabtu (16:00 - 17:00)</option>
+                      <option value="Sabtu (17:00 - 18:00)">Sabtu (17:00 - 18:00)</option>
+                      <option value="Sabtu (18:00 - 19:00)">Sabtu (18:00 - 19:00)</option>
+                      <option value="Sabtu (19:00 - 20:00)">Sabtu (19:00 - 20:00)</option>
+                      <option value="Sabtu (20:00 - 21:00)">Sabtu (20:00 - 21:00)</option>
+
+                      <!-- Minggu -->
+                      <option value="Minggu (09:00 - 10:00)">Minggu (09:00 - 10:00)</option>
+                      <option value="Minggu (10:00 - 11:00)">Minggu (10:00 - 11:00)</option>
+                      <option value="Minggu (11:00 - 12:00)">Minggu (11:00 - 12:00)</option>
+                      <option value="Minggu (12:00 - 13:00)">Minggu (12:00 - 13:00)</option>
+                      <option value="Minggu (13:00 - 14:00)">Minggu (13:00 - 14:00)</option>
+                      <option value="Minggu (14:00 - 15:00)">Minggu (14:00 - 15:00)</option>
+                      <option value="Minggu (15:00 - 16:00)">Minggu (15:00 - 16:00)</option>
+                      <option value="Minggu (16:00 - 17:00)">Minggu (16:00 - 17:00)</option>
+                      <option value="Minggu (17:00 - 18:00)">Minggu (17:00 - 18:00)</option>
+                      <option value="Minggu (18:00 - 19:00)">Minggu (18:00 - 19:00)</option>
+                      <option value="Minggu (19:00 - 20:00)">Minggu (19:00 - 20:00)</option>
+                      <option value="Minggu (20:00 - 21:00)">Minggu (20:00 - 21:00)</option>
+                    </select>
+                    </div>
+                  <div class="form-group">
+                    <label for="statusSelect">Status</label>
+                    <select class="form-control" id="statusSelect" name="status">
+                      <option value="On">On</option>
+                      <option value="Off">Off</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  function confirmDelete(jadwalId) {
+    $('#deleteJadwalDoctorModal-' + jadwalId).modal('show');
+  }
+
+  function deleteJadwal(jadwalId) {
+    // Sesuaikan URL dengan endpoint yang benar untuk penghapusan jadwal dokter
+    window.location.href = '/dashboard/jadwal-dokter-spesialis/delete/' + jadwalId;
+  }
+</script>
+
+<%- include('../layouts/footer') %>

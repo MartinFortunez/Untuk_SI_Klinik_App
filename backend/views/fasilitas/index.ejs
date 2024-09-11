@@ -1,0 +1,132 @@
+<%- include('../layouts/navbar') %>
+
+<!-- Page Content  -->
+<div class="main-panel">
+  <div id="content" class="p-4 p-md-5">
+    <div class="container-fluid mt-5">
+      <div class="header-content d-flex justify-content-between align-items-center">
+        <h1 class="mb-4">Fasilitas saat ini</h1>
+        <a href="#" class="btn btn-primary mb-4" data-toggle="modal" data-target="#addFacilityModal">Tambah</a>
+      </div>
+
+      <div class="body-content">
+        <div class="row">
+          <% facilities.forEach(facility => { %>
+          <div class="col-lg-6 mb-4">
+            <div class="card">
+              <img src="data:image/jpeg;base64, <%= facility.foto_fasilitas %>" class="card-img-top" alt="Tidak bisa memuat gambar" />
+              <div class="card-body">
+                <h4><%= facility.judul %></h4>
+                <p class="card-text"><%= facility.deskripsi %></p>
+                <div class="d-flex justify-content-end">
+                  <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#editFacilityModal-<%= facility.fasilitas_id %>">Edit</button>
+                  <button class="btn btn-outline-danger" onclick="confirmDelete('<%= facility.fasilitas_id %>')">Hapus</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Edit Fasilitas -->
+
+          <div class="modal fade" id="editFacilityModal-<%= facility.fasilitas_id %>" tabindex="-1" role="dialog" aria-labelledby="editFacilityModalLabel-<%= facility.fasilitas_id %>" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="editFacilityModalLabel-<%= facility.fasilitas_id %>">Edit Fasilitas</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form action="/dashboard/fasilitas/edit/<%= facility.fasilitas_id %>" method="POST" enctype="multipart/form-data">
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="judulEdit-<%= facility.fasilitas_id %>">Judul</label>
+                      <input type="text" class="form-control" id="judulEdit-<%= facility.fasilitas_id %>" name="judul" value="<%= facility.judul %>" required />
+                    </div>
+                    <div class="form-group">
+                      <label for="deskripsiEdit-<%= facility.fasilitas_id %>">Deskripsi</label>
+                      <textarea class="form-control" id="deskripsiEdit-<%= facility.fasilitas_id %>" name="deskripsi" rows="3" required><%= facility.deskripsi %></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="foto_fasilitasEdit-<%= facility.fasilitas_id %>">Foto Fasilitas</label>
+                      <input type="file" class="form-control" id="foto_fasilitasEdit-<%= facility.fasilitas_id %>" name="foto_fasilitas" />
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Tambah Fasilitas -->
+<div class="modal fade" id="addFacilityModal" tabindex="-1" role="dialog" aria-labelledby="addFacilityModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addFacilityModalLabel">Tambah Fasilitas</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/dashboard/fasilitas/add" method="POST" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="judul">Judul</label>
+            <input type="text" class="form-control" id="judul" name="judul" required />
+          </div>
+          <div class="form-group">
+            <label for="deskripsi">Deskripsi</label>
+            <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="foto_fasilitas">Foto Fasilitas</label>
+            <input type="file" class="form-control" id="foto_fasilitas" name="foto_fasilitas" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+   <!-- Modal Hapus Fasilitas -->
+<div class="modal fade" id="deleteFacilityModal" tabindex="-1" role="dialog" aria-labelledby="deleteFacilityModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-sm" role="document"> 
+     <div class="modal-content">
+       <div class="modal-body text-center">
+         <h6 id="deleteFacilityModalLabel" class="display-4 font-weight-bold mt-4">Hapus Fasilitas</h6>
+         
+         <p class="font-weight-500 mb-4">Apakah Anda yakin untuk menghapus data fasilitas secara permanen?</p>
+         <div class="d-flex justify-content-center align-items-center">
+           <button type="button" class="btn btn-primary mr-3 mb-3 font-weight-bold" data-dismiss="modal">Batal</button>
+           <a class="btn btn-danger ml-3 mb-3 text-danger font-weight-bold" id="confirmDeleteBtn" style="background: none !important; border: none !important;">Hapus</a>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+ 
+ <script>
+   function confirmDelete(fasilitasId) {
+     $('#deleteFacilityModal').modal('show');
+     $('#confirmDeleteBtn').attr('onclick', 'deleteDoctor(' + fasilitasId + ')');
+   }
+   
+   function deleteDoctor(fasilitasId) {
+     window.location.href = '/dashboard/fasilitas/delete/' + fasilitasId;
+   }
+ </script>
+
+<%- include('../layouts/footer') %>

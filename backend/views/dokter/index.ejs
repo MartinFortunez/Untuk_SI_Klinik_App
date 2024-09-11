@@ -1,0 +1,155 @@
+<%- include('../layouts/navbar') %>
+
+
+
+
+<!-- Page Content  -->
+<div class="main-panel">
+  <div id="content" class="p-4 p-md-5">
+    <div class="container-fluid mt-5">
+      <div class="header-content d-flex justify-content-between align-items-center">
+        <h1 class="mb-4">Data Dokter</h1>
+        <button class="btn btn-primary mb-4" data-toggle="modal" data-target="#addDoctorModal">Tambah</button>
+      </div>
+      <div class="body-content">
+         <% users.forEach(dokter => { %>
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3 text-center">
+                <img src="data:image/jpeg;base64,<%= dokter.foto_dokter %>" alt="dokter Photo" class="img-fluid" width="100" />
+              </div>
+              <div class="col-md-3 d-flex flex-column justify-content-center">
+                <h5 class="mb-0">Nama Dokter</h5>
+                <p class="font-weight-bold"><%= dokter.nama_dokter %></p>
+              </div>
+              <div class="col-md-3 d-flex flex-column justify-content-center">
+                <h5 class="mb-0">SIP (Surat Izin Praktek)</h5>
+                <p class="font-weight-bold"><%= dokter.sip %></p>
+              </div>
+              <div class="col-md-3 d-flex flex-column justify-content-center">
+                <h5 class="mb-0">Spesialis</h5>
+                <p class="font-weight-bold"><%= dokter.spesialis %></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-12 d-flex align-items-center justify-content-end">
+                <a href="#" class="text-danger mr-3" onclick="confirmDelete('<%= dokter.dokter_id %>')">Hapus</a>
+                <button class="btn btn-outline-primary" data-toggle="modal" data-target="#editDoctorModal-<%= dokter.dokter_id %>">Edit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Edit Dokter -->
+        <div class="modal fade" id="editDoctorModal-<%= dokter.dokter_id %>" tabindex="-1" role="dialog" aria-labelledby="editDoctorModalLabel-<%= dokter.dokter_id %>" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editDoctorModalLabel-<%= dokter.dokter_id %>">Edit Dokter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="/dashboard/dokter-klinik/edit/<%= dokter.dokter_id %>" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="edit_foto_dokter-<%= dokter.dokter_id %>">Foto Dokter</label>
+                    <input type="file" class="form-control" id="edit_foto_dokter-<%= dokter.dokter_id %>" name="foto_dokter">
+                  </div>
+                  <div class="form-group">
+                    <label for="edit_nama_dokter-<%= dokter.dokter_id %>">Nama Dokter</label>
+                    <input type="text" class="form-control" id="edit_nama_dokter-<%= dokter.dokter_id %>" name="nama_dokter" value="<%= dokter.nama_dokter %>" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="edit_dokter_sip-<%= dokter.dokter_id %>">SIP (Surat Izin Praktek)</label>
+                    <input type="text" class="form-control" id="edit_dokter_sip-<%= dokter.dokter_id %>" name="sip" value="<%= dokter.sip %>" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="edit_spesialis-<%= dokter.dokter_id %>">Spesialis</label>
+                    <input type="text" class="form-control" id="edit_spesialis-<%= dokter.dokter_id %>" name="spesialis" value="<%= dokter.spesialis %>" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Tambah Dokter -->
+<div class="modal fade" id="addDoctorModal" tabindex="-1" role="dialog" aria-labelledby="addDoctorModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addDoctorModalLabel">Tambah Dokter</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/dashboard/dokter-klinik/add" method="POST" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="foto_dokter">Foto Dokter</label>
+            <input type="file" class="form-control" id="foto_dokter" name="foto_dokter" required>
+          </div>
+          <div class="form-group">
+            <label for="nama_dokter">Nama Dokter</label>
+            <input type="text" class="form-control" id="nama_dokter" name="nama_dokter" required>
+          </div>
+          <div class="form-group">
+            <label for="sip">SIP (Surat Izin Praktek)</label>
+            <input type="text" class="form-control" id="sip" name="sip" required>
+          </div>
+          <div class="form-group">
+            <label for="spesialis">Spesialis</label>
+            <input type="text" class="form-control" id="spesialis" name="spesialis" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <!-- Modal Hapus Dokter -->
+<div class="modal fade" id="deleteDoctorModal" tabindex="-1" role="dialog" aria-labelledby="deleteDoctorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document"> <!-- Menggunakan kelas modal-sm untuk ukuran kecil -->
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <h6 id="deleteDoctorModalLabel" class="display-4 font-weight-bold mt-4">Hapus Dokter</h6>
+        
+        <p class="font-weight-500 mb-4">Apakah Anda yakin untuk menghapus data dokter secara permanen?</p>
+        <div class="d-flex justify-content-center align-items-center">
+          <button type="button" class="btn btn-primary mr-3 mb-3 font-weight-bold" data-dismiss="modal">Batal</button>
+          <a class="btn btn-danger ml-3 mb-3 text-danger font-weight-bold" id="confirmDeleteBtn" style="background: none !important; border: none !important;">Hapus</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function confirmDelete(dokterId) {
+    $('#deleteDoctorModal').modal('show');
+    $('#confirmDeleteBtn').attr('onclick', 'deleteDoctor(' + dokterId + ')');
+  }
+  
+  function deleteDoctor(dokterId) {
+    window.location.href = '/dashboard/dokter-klinik/delete/' + dokterId;
+  }
+</script>
+
+<%- include('../layouts/footer') %>

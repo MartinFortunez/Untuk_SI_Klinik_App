@@ -1,0 +1,130 @@
+<%- include('../layouts/navbar') %>
+<style>
+  .review-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .review-card .rating {
+    color: #ffc107;
+  }
+  .review-card .btn-delete {
+    color: red;
+    border: none;
+    background: none;
+  }
+  .review-card .btn-show {
+    background-color: #17a2b8;
+    color: white;
+  }
+  .review-card .btn-show:hover {
+    background-color: #138496;
+  }
+  .btn-on {
+    background-color: red;
+    color: white;
+  }
+  .btn-on:hover {
+    background-color: darkred;
+  }
+  .btn-off {
+    background-color: #17a2b8;
+    color: white;
+  }
+  .btn-off:hover {
+    background-color: #17a2b8;
+  }
+</style>
+
+<!-- Page Content  -->
+<div class="main-panel">
+  <div id="content" class="p-4 p-md-5">
+    <div class="container-fluid mt-5">
+      <div class="header-content d-flex justify-content-between align-items-center">
+        <h1 class="mb-4">Feedback dari User</h1>
+      </div>
+      <div class="row">
+        <% feedback.forEach(function(item) { %>
+        <div class="col-lg-6">
+          <div class="review-card">
+            <div class="row">
+              <div class="col-6">
+                <strong>NIK</strong>
+                <p><%= item.nik %></p>
+              </div>
+              <div class="col-6 text-right">
+                <strong>Tanggal</strong>
+                <p><%= new Date(item.tgl_ulasan).toLocaleDateString() %></p>
+              </div>
+            </div>
+            <strong>Nama</strong>
+            <p><%= item.nama_pasien %></p>
+            <strong>Penilaian</strong>
+            <p><%= item.penilaian %></p>
+            <strong>Rating</strong>
+            <p class="rating"><%= '★'.repeat(item.rating) + '☆'.repeat(5 - item.rating) %></p>
+            <div class="d-flex justify-content-between">
+              <a href="#" class="text-danger mr-3" onclick="confirmDelete('<%= item.ulasan_id %>')">Hapus</a>
+              <a href="#" class="btn <%= item.status === 'on' ? 'btn-on' : 'btn-off' %> mr-3" onclick="confirmEdit('<%= item.ulasan_id %>', '<%= item.status %>')"><%= item.status === 'on' ? 'Matikan' : 'Tampilkan' %></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- modal delete ulasan -->
+        <div class="modal fade" id="deleteUlasanModal-<%= item.ulasan_id %>" tabindex="-1" role="dialog" aria-labelledby="deleteUlasanModalLabel-<%= item.ulasan_id %>" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-body text-center">
+                <h6 class="display-4 font-weight-bold mt-4">Hapus Feedback</h6>
+                <p class="font-weight-500 mb-4">Apakah Anda yakin untuk menghapus feedback ini?</p>
+                <div class="d-flex justify-content-center align-items-center">
+                  <button type="button" class="btn btn-primary mr-3 mb-3 font-weight-bold" data-dismiss="modal">Batal</button>
+                  <a href="#" class="btn btn-danger ml-3 mb-3 text-danger font-weight-bold" onclick="deleteUlasan('<%= item.ulasan_id %>')" style="background: none !important; border: none !important">Hapus</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- modal edit ulasan -->
+        <div class="modal fade" id="editUlasanModal-<%= item.ulasan_id %>" tabindex="-1" role="dialog" aria-labelledby="editUlasanModalLabel-<%= item.ulasan_id %>" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-body text-center">
+                <h6 class="display-4 font-weight-bold mt-4"><%= item.status === 'on' ? 'Matikan' : 'Tampilkan' %> Feedback</h6>
+                <p class="font-weight-500 mb-4">Apakah Anda yakin untuk <%= item.status === 'on' ? 'mematikan' : 'menampilkan' %> feedback ini?</p>
+                <form action="/dashboard/feedback/edit/<%= item.ulasan_id %>" method="POST">
+                  <input type="hidden" name="status" value="<%= item.status === 'on' ? 'off' : 'on' %>">
+                  <div class="d-flex justify-content-center align-items-center">
+                    <button type="button" class="btn btn-primary mr-3 mb-3 font-weight-bold" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn <%= item.status === 'on' ? 'btn-danger' : 'btn-success' %> ml-3 mb-3 font-weight-bold"><%= item.status === 'on' ? 'Matikan' : 'Tampilkan' %></button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function confirmDelete(ulasanId) {
+    $("#deleteUlasanModal-" + ulasanId).modal("show");
+  }
+
+  function deleteUlasan(ulasanId) {
+    // Sesuaikan URL dengan endpoint yang benar untuk penghapusan ulasan
+    window.location.href = "/dashboard/feedback/delete/" + ulasanId;
+  }
+
+  function confirmEdit(ulasanId, status) {
+    $("#editUlasanModal-" + ulasanId).modal("show");
+  }
+</script>
+<%- include('../layouts/footer') %>

@@ -1,0 +1,14 @@
+// sudah
+- jadwal dokter
+- dokter
+- feedback
+- fasilitas
+- login
+- registrasi
+- reminder -> wa 
+- konsultasi masuk
+
+// Belum aksi
+- tenggat data (belum sesuai) untuk add
+- hapus reminder setelah tanggal tenggat habis
+- riwayat -> wa (belum edit kata-katanya)

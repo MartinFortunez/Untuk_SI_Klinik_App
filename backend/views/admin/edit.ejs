@@ -1,0 +1,27 @@
+<%- include('../layouts/navbar') %>
+
+<!-- Page Content  -->
+<div class="main-panel">
+  <div id="content" class="p-4 p-md-5">
+    <div class="container mt-5">
+        <h1 class="mb-4">Edit Admin</h1>
+        <form action="/dashboard/admin/edit/<%= user.admin_id %>" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="foto_admin">Photo</label>
+                <input type="file" class="form-control" id="foto_admin" name="foto_admin">
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" value="<%= user.username %>" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" value="<%= user.password %>" required>
+            </div>
+            <button type="submit" class="btn btn-warning">Update</button>
+        </form>
+    </div>
+</div>
+</div>
+
+<%- include('../layouts/footer') %>
